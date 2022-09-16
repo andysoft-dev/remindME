@@ -87,12 +87,13 @@ class Program
                 }
 
                 Console.WriteLine("Recording reminder...");
-                var dbClient = await InitializeCosmosClientInstanceAsync(connCosmos, "reminders", "reminder");
+                var dbClient = await Core.CosmosClass.InitializeCosmosClientInstanceAsync(connCosmos, "reminders", "reminder");
+                //var dbClient = await InitializeCosmosClientInstanceAsync(connCosmos, "reminders", "reminder");
                 item.title = titulo;
                 item.message = mensaje;
                 item.datetime = fecha;
                 item.id = System.Guid.NewGuid().ToString();
-
+                
                 await dbClient.AddItemAsync(item);
                 Console.WriteLine("Reminder added!");
 
