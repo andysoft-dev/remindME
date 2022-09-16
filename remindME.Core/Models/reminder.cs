@@ -13,7 +13,7 @@ namespace remindME.Core.Models
     public class Reminder
     {
         [JsonProperty(PropertyName = "datetime")]
-        public string datetime { get; set; }
+        public DateTime datetime { get; set; }
 
         [JsonProperty(PropertyName = "message")]
         public string message { get; set; }

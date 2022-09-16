@@ -9,6 +9,7 @@ using Microsoft.Azure.Cosmos;
 using remindME.Core.Cosmos;
 using System.CommandLine;
 using System.Configuration;
+using System.Runtime.InteropServices;
 
 namespace remindME;
 
@@ -91,7 +92,7 @@ class Program
                 //var dbClient = await InitializeCosmosClientInstanceAsync(connCosmos, "reminders", "reminder");
                 item.title = titulo;
                 item.message = mensaje;
-                item.datetime = fecha;
+                item.datetime = fec.ToUniversalTime();
                 item.id = System.Guid.NewGuid().ToString();
                 
                 await dbClient.AddItemAsync(item);
@@ -137,8 +138,12 @@ class Program
             desencriptado = string.Join(Environment.NewLine, valoresConfig);
             encriptado = cr.Encrypt3DES(desencriptado);
             andysoft.utiles.WriteConfig gr = new andysoft.utiles.WriteConfig();
+            string ruta ="";
 
-            gr.grabaData(Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "config.properties"), encriptado);
+            ruta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "remindME");
+            if (!Directory.Exists(ruta)) Directory.CreateDirectory(ruta);
+
+            gr.grabaData(Path.Combine(ruta, "config.properties"), encriptado);
 
 
             //Console.WriteLine(ReaderConfig.leePropiedadDesdeStringEncriptado(encriptado, "email"));

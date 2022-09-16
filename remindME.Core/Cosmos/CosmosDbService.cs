@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Azure.Cosmos;
-using remindME.Core;
+﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Linq;
 using remindME.Core.Models;
 
 namespace remindME.Core.Cosmos
 {
     public class CosmosDbService : ICosmosDbService
     {
-        private Container _container;
+        private Microsoft.Azure.Cosmos.Container _container;
 
         public CosmosDbService(
             CosmosClient dbClient,
@@ -21,7 +18,7 @@ namespace remindME.Core.Cosmos
 
         public async Task AddItemAsync(Reminder item)
         {
-            await this._container.CreateItemAsync<Reminder>(item, new PartitionKey(item.datetime));
+            await this._container.CreateItemAsync<Reminder>(item);
         }
 
         public async Task DeleteItemAsync(string id)
@@ -45,6 +42,7 @@ namespace remindME.Core.Cosmos
 
         public async Task<IEnumerable<Reminder>> GetItemsAsync(string queryString)
         {
+
             var query = this._container.GetItemQueryIterator<Reminder>(new QueryDefinition(queryString));
             List<Reminder> results = new List<Reminder>();
             while (query.HasMoreResults)
@@ -55,6 +53,32 @@ namespace remindME.Core.Cosmos
             }
 
             return results;
+        }
+
+        public async Task<List<Reminder>> GetReminders(DateTime fec)
+        {
+            List<Reminder> lista = new List<Reminder>();
+            using (FeedIterator<Reminder> setIterator = this._container.GetItemLinqQueryable<Reminder>().Where(p => p.datetime.Year == fec.Year && p.datetime.Month == fec.Month 
+            && p.datetime.Day == fec.Day && p.datetime.Hour == fec.Hour && p.datetime.Minute == fec.Minute)
+                      .ToFeedIterator<Reminder>())
+            {
+                //Asynchronous query execution
+                while (setIterator.HasMoreResults)
+                {
+                    foreach (var item in await setIterator.ReadNextAsync())
+                    {
+                        lista.Add(new Reminder { 
+                            datetime = item.datetime,
+                            id = item.id,
+                            message =  item.message,
+                            title = item.title
+                        });
+                    }
+                }
+            }
+
+
+            return lista;
         }
 
         public async Task UpdateItemAsync(string id, Reminder item)

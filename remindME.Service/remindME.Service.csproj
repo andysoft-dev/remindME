@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\remindME.Core\remindME.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="andysoft.utiles">
       <HintPath>..\..\andysoft\andysoft.utiles\bin\Release\net6.0\andysoft.utiles.dll</HintPath>
     </Reference>

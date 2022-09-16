@@ -1,3 +1,7 @@
+using Azure;
+using remindME.Core;
+using remindME.Core.Models;
+
 namespace reminderMEService
 {
     public class Worker : BackgroundService
@@ -11,10 +15,16 @@ namespace reminderMEService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            List<Reminder> lista = new List<Reminder>();
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(1000, stoppingToken);
+                await reminderMEService.reminders.getReminders(DateTime.UtcNow);
+                foreach (var item in lista)
+                {
+                    await reminderMEService.reminders.sentReminder(item.title, item.message);
+                }
+                _logger.LogInformation("Procesando: {time}", DateTime.UtcNow);
+                await Task.Delay(60000, stoppingToken);
             }
         }
     }
