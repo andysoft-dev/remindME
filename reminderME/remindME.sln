@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "remindME", "remindME.csproj", "{6D6383C9-CBE3-4C49-A0E6-E53FD30FDBC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "remindMEService", "..\reminderMEService\remindMEService.csproj", "{D252546B-8152-400B-ABF9-7727F19AC5EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "remindME.Service", "..\reminderMEService\remindME.Service.csproj", "{D252546B-8152-400B-ABF9-7727F19AC5EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "remindME.Core", "..\remindME.Core\remindME.Core.csproj", "{D48703E5-BC29-428C-96AC-585DC908CA28}"
 EndProject
