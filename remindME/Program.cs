@@ -94,6 +94,7 @@ class Program
                 item.message = mensaje;
                 item.datetime = fec.ToUniversalTime();
                 item.id = System.Guid.NewGuid().ToString();
+                item.sent = false;
                 
                 await dbClient.AddItemAsync(item);
                 Console.WriteLine("Reminder added!");
