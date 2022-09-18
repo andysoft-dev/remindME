@@ -1,12 +1,11 @@
-﻿#!/bin/bash
+#!/bin/bash
+
 
 echo "Instalador de remindME"
+cp remindme.sh /etc/profile.d/remindme.sh
 
-cp remindme.sh /etc/profile.d/
+tar -xf remindME-Linux-v.0.0.1.tar.gz -C /usr/local/bin/remindME
 
+cd /usr/local/bin/remindME
 
-tar -xf remindME-Linux.tar.gz -C /user/local/bin/remindME/
-cd /user/local/bin/remindME
-chmod -x remindME
-
-
+chmod +x remindME

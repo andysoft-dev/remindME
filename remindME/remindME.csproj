@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <None Remove="instalador.sh" />
+    <None Remove="remindme.sh" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="remindme.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="instalador.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
