@@ -18,12 +18,17 @@ namespace reminderMEService
             List<Reminder> lista = new List<Reminder>();
             while (!stoppingToken.IsCancellationRequested)
             {
-                await reminderMEService.reminders.getReminders(DateTime.UtcNow);
+                _logger.LogInformation("Procesando: {time} UTC ({local})", DateTime.UtcNow, DateTime.Now);
+                lista = await reminderMEService.reminders.getReminders(DateTime.UtcNow);
                 foreach (var item in lista)
                 {
-                    await reminderMEService.reminders.sentReminder(item.title, item.message);
+                    bool resp = await reminderMEService.reminders.sentReminder(item.title, item.message);
+                    if (resp)
+                    {
+                        item.sent = true;
+                        bool repSave = await reminderMEService.reminders.setReminder(item);
+                    }
                 }
-                _logger.LogInformation("Procesando: {time}", DateTime.UtcNow);
                 await Task.Delay(60000, stoppingToken);
             }
         }

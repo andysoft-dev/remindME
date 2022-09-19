@@ -58,8 +58,7 @@ namespace remindME.Core.Cosmos
         public async Task<List<Reminder>> GetReminders(DateTime fec)
         {
             List<Reminder> lista = new List<Reminder>();
-            using (FeedIterator<Reminder> setIterator = this._container.GetItemLinqQueryable<Reminder>().Where(p => p.datetime.Year == fec.Year && p.datetime.Month == fec.Month 
-            && p.datetime.Day == fec.Day && p.datetime.Hour == fec.Hour && p.datetime.Minute == fec.Minute)
+            using (FeedIterator<Reminder> setIterator = this._container.GetItemLinqQueryable<Reminder>().Where(p => p.datetime < fec && p.sent == false)
                       .ToFeedIterator<Reminder>())
             {
                 //Asynchronous query execution
@@ -71,7 +70,8 @@ namespace remindME.Core.Cosmos
                             datetime = item.datetime,
                             id = item.id,
                             message =  item.message,
-                            title = item.title
+                            title = item.title,
+                            sent = item.sent
                         });
                     }
                 }
@@ -85,6 +85,7 @@ namespace remindME.Core.Cosmos
         {
             await this._container.UpsertItemAsync<Reminder>(item, new PartitionKey(id));
         }
+
     }
 }
 

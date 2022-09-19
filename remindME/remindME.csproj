@@ -8,20 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="instalador.sh" />
-    <None Remove="remindme.sh" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="remindme.sh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="instalador.sh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.30.1" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>

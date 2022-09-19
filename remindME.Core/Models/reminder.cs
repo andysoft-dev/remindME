@@ -23,6 +23,8 @@ namespace remindME.Core.Models
 
         [JsonProperty(PropertyName = "id")]
         public string id { get; set; }
+        [JsonProperty(PropertyName = "sent")]
+        public bool sent { get; set; }
 
     }
 }

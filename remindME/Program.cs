@@ -57,10 +57,12 @@ class Program
 
                 string dataEncr = "";
                 string connCosmos = "";
+                string ruta = "";
                 Core.Models.Reminder item = new Core.Models.Reminder();
 
+                ruta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "remindME");
 
-                dataEncr = andysoft.utiles.ReaderConfig.leeArchivoConfig(Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "config.properties"));
+                dataEncr = andysoft.utiles.ReaderConfig.leeArchivoConfig(Path.Combine(ruta, "config.properties"));
                 andysoft.utiles.ReaderConfig.leePropiedadDesdeStringEncriptado(dataEncr, "apiKey");
                 andysoft.utiles.ReaderConfig.leePropiedadDesdeStringEncriptado(dataEncr, "email");
                 connCosmos = andysoft.utiles.ReaderConfig.leePropiedadDesdeStringEncriptado(dataEncr, "cosmos");
