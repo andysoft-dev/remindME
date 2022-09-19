@@ -8,6 +8,7 @@ using andysoft.utiles;
 using Microsoft.Azure.Cosmos;
 using remindME.Core.Cosmos;
 using System.CommandLine;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Runtime.InteropServices;
 
@@ -25,6 +26,9 @@ class Program
         string desencriptado = "";
         string? encriptado = "";
         string? cosmos = "";
+        string? calltome = "";
+        string? phone = "";
+
 
 
         andysoft.utiles.Crypto3DES cr = new andysoft.utiles.Crypto3DES();
@@ -121,7 +125,7 @@ class Program
             email = Console.ReadLine();
             if (email == "")
             {
-                Console.WriteLine("Please type a email");
+                Console.WriteLine("Please type a email (Multiple e-mails comma delimited)");
                 return(1);
             }
             Console.WriteLine("Please ingress the connection string from CosmosDB Azure Account");
@@ -131,11 +135,32 @@ class Program
                 Console.WriteLine("Please type a correct connection string from CosmosDB");
                 return (1);
             }
+            Console.WriteLine("Please ingress the CallToMe API Token (Optional)");
+
+            calltome= Console.ReadLine();
+
+            if (calltome != "")
+            {
+                //Si se ingresa api calltome, exijo el número de teléfono
+                Console.WriteLine("Please ingress the phone number for WhatsApp");
+
+                phone = Console.ReadLine();
+                if (phone=="")
+                {
+                    Console.WriteLine("Please type a correct phone number for WhatsApp");
+                    return (1);
+                }
+            }
+
 
             valoresConfig = new List<string>();
             valoresConfig.Add(String.Concat("apiKey=", apiKey));
             valoresConfig.Add(String.Concat("email=", email));
             valoresConfig.Add(String.Concat("cosmos=", cosmos));
+            valoresConfig.Add(String.Concat("calltome=", calltome));
+            valoresConfig.Add(String.Concat("phone=", phone));
+
+
 
 
             desencriptado = string.Join(Environment.NewLine, valoresConfig);

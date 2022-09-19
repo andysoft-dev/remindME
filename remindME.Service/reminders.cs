@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace reminderMEService
 {
@@ -71,16 +72,27 @@ namespace reminderMEService
             string dataEncr = "";
             string paraMail = "";
             string apiKey = "";
+            string calltome = "";
+            string phone = "";
 
             ruta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "remindME");
 
             dataEncr = andysoft.utiles.ReaderConfig.leeArchivoConfig(Path.Combine(ruta, "config.properties"));
             paraMail = andysoft.utiles.ReaderConfig.leePropiedadDesdeStringEncriptado(dataEncr, "email");
             apiKey = andysoft.utiles.ReaderConfig.leePropiedadDesdeStringEncriptado(dataEncr, "apiKey");
+            calltome = andysoft.utiles.ReaderConfig.leePropiedadDesdeStringEncriptado(dataEncr, "calltome");
+            phone = andysoft.utiles.ReaderConfig.leePropiedadDesdeStringEncriptado(dataEncr, "phone");
+
 
             try
             {
                 await andysoft.utiles.Envios.enviarEmail(apiKey, title, paraMail, paraMail, message, message);
+
+                if (calltome!="")
+                {
+                    var resp1= await andysoft.utiles.Http.SendHttpGet("https://api.callmebot.com/whatsapp.php?phone=" + phone + "&text=remindME %0ATitle: "+ HttpUtility.UrlEncode(title) + "%0A%0AMessage:" + HttpUtility.UrlEncode(message) + "&apikey=736351");
+                }
+
                 return true;
             }
             catch (Exception ex)
