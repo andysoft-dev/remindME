@@ -90,7 +90,10 @@ namespace reminderMEService
 
                 if (calltome!="")
                 {
-                    var resp1= await andysoft.utiles.Http.SendHttpGet("https://api.callmebot.com/whatsapp.php?phone=" + phone + "&text=remindME %0ATitle: "+ HttpUtility.UrlEncode(title) + "%0A%0AMessage:" + HttpUtility.UrlEncode(message) + "&apikey=736351");
+                    string url = HttpUtility.UrlPathEncode("https://api.callmebot.com/whatsapp.php?phone=" + phone + "&text=remindME%0ATitle:" + title + "%0A%0AMessage:" + message + "&apikey=" + calltome);
+                    var resp1= await andysoft.utiles.Http.SendHttpGet(url);
+                    Console.WriteLine(url);
+                    Console.WriteLine(resp1);
                 }
 
                 return true;
