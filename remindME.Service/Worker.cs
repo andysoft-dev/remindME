@@ -28,6 +28,8 @@ namespace reminderMEService
                         item.sent = true;
                         bool repSave = await reminderMEService.reminders.setReminder(item);
                     }
+                    GC.Collect();
+
                 }
                 await Task.Delay(60000, stoppingToken);
             }
