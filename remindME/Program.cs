@@ -40,23 +40,24 @@ class Program
             var mensajeOption = new Option<string?>(name: "--message", description: "Reminder message.");
             var tituloOption = new Option<string?>(name: "--title", description: "Reminder title");
             var fechaRecordatorioOption = new Option<string?>(name: "--time", description: "Reminder date in yyyy-mm-dd hh:mm format");
+            var noWhatspApp = new Option<bool>(new[] { "--no-whatsapp"  }, () => { return false; }, "D not send reminder to WhatsApp");
 
 
-
-            var rootCommand = new RootCommand("remindMe: Create reminders from the command line. (Author: Andy Jara, Santiago Chile)");
+            var rootCommand = new RootCommand("remindMe: Create reminders from the command line. (Author: Andy Jara M., Santiago Chile)");
             var grabaCommand = new Command("save", "Save a new reminder.")
             {
                 mensajeOption,
                 tituloOption,
                 fechaRecordatorioOption,
+                noWhatspApp
             };
 
             rootCommand.AddCommand(grabaCommand);
 
-            rootCommand.AddOption(mensajeOption);
+            //rootCommand.AddOption(mensajeOption);
 
 
-            grabaCommand.SetHandler(async (mensaje, titulo, fecha) =>
+            grabaCommand.SetHandler(async (mensaje, titulo, fecha, nowasap) =>
             {
 
                 string dataEncr = "";
@@ -92,6 +93,7 @@ class Program
                     Console.WriteLine("The datetime is not valid");
                     return;
                 }
+                
 
                 Console.WriteLine("Recording reminder...");
                 var dbClient = await Core.CosmosClass.InitializeCosmosClientInstanceAsync(connCosmos, "reminders", "reminder");
@@ -101,13 +103,14 @@ class Program
                 item.datetime = fec.ToUniversalTime();
                 item.id = System.Guid.NewGuid().ToString();
                 item.sent = false;
-                
+                item.nowhatsapp = nowasap;
+
                 await dbClient.AddItemAsync(item);
                 Console.WriteLine("Reminder added!");
 
 
-            }, 
-            mensajeOption, tituloOption, fechaRecordatorioOption);
+            },
+            mensajeOption, tituloOption, fechaRecordatorioOption, noWhatspApp);
 
             return await rootCommand.InvokeAsync(args);
         }

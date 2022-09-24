@@ -25,6 +25,8 @@ namespace remindME.Core.Models
         public string id { get; set; }
         [JsonProperty(PropertyName = "sent")]
         public bool sent { get; set; }
+        [JsonProperty(PropertyName = "no-whatsapp")]
+        public bool nowhatsapp  { get; set; }
 
     }
 }

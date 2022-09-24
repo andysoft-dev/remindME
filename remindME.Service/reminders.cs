@@ -66,7 +66,7 @@ namespace reminderMEService
             //IQueryable<remindME.Core.Models.Reminder> list = container.GetItemLinqQueryable<Order>(allowSynchronousQueryExecution: true).Where(o => o.ShipDate >= DateTime.UtcNow.AddDays(-3));
         }
 
-        public static async Task<bool> sentReminder(string title, string message)
+        public static async Task<bool> sentReminder(Reminder it)
         {
             string ruta = "";
             string dataEncr = "";
@@ -86,11 +86,11 @@ namespace reminderMEService
 
             try
             {
-                await andysoft.utiles.Envios.enviarEmail(apiKey, title, paraMail, paraMail, message, message);
+                await andysoft.utiles.Envios.enviarEmail(apiKey, it.title, paraMail, paraMail, it.message, it.message);
 
-                if (calltome!="")
+                if ((calltome!="") && (!it.nowhatsapp))
                 {
-                    string url = HttpUtility.UrlPathEncode("https://api.callmebot.com/whatsapp.php?phone=" + phone + "&text=remindME%0ATitle:" + title + "%0A%0AMessage:" + message + "&apikey=" + calltome);
+                    string url = HttpUtility.UrlPathEncode("https://api.callmebot.com/whatsapp.php?phone=" + phone + "&text=remindME says %0A%0ATitle: " + it.title + "%0A%0AMessage: " + it.message + "%0A%0A%F0%9F%98%8EHave a great day." + "&apikey=" + calltome);
                     var resp1= await andysoft.utiles.Http.SendHttpGet(url);
                     Console.WriteLine(url);
                     Console.WriteLine(resp1);
