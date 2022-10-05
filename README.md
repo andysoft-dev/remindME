@@ -1,7 +1,7 @@
 # remindME
 Create reminders from linux console that will be sent to your email and whatsapp.
 
-Explanations of projects:
+Project's explanations
 
 - remindME: Console application
 - remindME.Core Core and backend operations
